@@ -1,6 +1,6 @@
 /**
- * Gift Giver - LocalStorage Abstraction Layer
- * Handles all data persistence for the MVP
+ * Gift Giver - Storage Abstraction Layer
+ * Hybrid storage: Supabase (online) + localStorage (offline/fallback)
  */
 
 const GiftStorage = {
@@ -10,11 +10,31 @@ const GiftStorage = {
         SESSIONS: 'giftgiver_sessions',
         CALENDAR: 'giftgiver_calendar',
         CURRENT_QUIZ: 'giftgiver_current_quiz',
-        CURRENT_DISCOVERY: 'giftgiver_current_discovery'
+        CURRENT_DISCOVERY: 'giftgiver_current_discovery',
+        REGION: 'giftgiver_region'
+    },
+
+    // Check if Supabase is available and user is authenticated
+    _useSupabase() {
+        return GiftConfig?.isConfigured() &&
+               GiftSupabase?.client &&
+               GiftSupabase?.isAuthenticated();
     },
 
     // ==================== USER ====================
     getUser() {
+        // Check Supabase user first
+        if (GiftSupabase?.user) {
+            return {
+                id: GiftSupabase.user.id,
+                email: GiftSupabase.user.email,
+                name: GiftSupabase.user.user_metadata?.display_name ||
+                      GiftSupabase.user.email?.split('@')[0],
+                createdAt: GiftSupabase.user.created_at
+            };
+        }
+
+        // Fallback to localStorage
         const data = localStorage.getItem(this.KEYS.USER);
         return data ? JSON.parse(data) : null;
     },
@@ -32,7 +52,34 @@ const GiftStorage = {
     },
 
     // ==================== PERSONAS ====================
-    getPersonas() {
+    async getPersonas() {
+        // Try Supabase first
+        if (this._useSupabase()) {
+            const personas = await GiftSupabase.getPersonas();
+            // Transform to match local format
+            return personas.map(p => ({
+                id: p.id,
+                name: p.name,
+                relationship: p.relationship,
+                birthday: p.birthday_month && p.birthday_day ?
+                    `${new Date().getFullYear()}-${String(p.birthday_month).padStart(2, '0')}-${String(p.birthday_day).padStart(2, '0')}` :
+                    null,
+                interests: p.interests || [],
+                style: p.style,
+                budget: p.budget_range,
+                trainingLevel: p.training_level || 0,
+                createdAt: p.created_at,
+                psychology: p.psychology
+            }));
+        }
+
+        // Fallback to localStorage
+        const data = localStorage.getItem(this.KEYS.PERSONAS);
+        return data ? JSON.parse(data) : [];
+    },
+
+    // Sync version for backward compatibility
+    getPersonasSync() {
         const data = localStorage.getItem(this.KEYS.PERSONAS);
         return data ? JSON.parse(data) : [];
     },
@@ -41,8 +88,31 @@ const GiftStorage = {
         localStorage.setItem(this.KEYS.PERSONAS, JSON.stringify(personas));
     },
 
-    addPersona(persona) {
-        const personas = this.getPersonas();
+    async addPersona(persona) {
+        // Try Supabase first
+        if (this._useSupabase()) {
+            const { data, error } = await GiftSupabase.createPersona({
+                name: persona.name,
+                relationship: persona.relationship,
+                birthday: persona.birthday,
+                style: persona.style,
+                budget_range: persona.budget,
+                interests: persona.interests,
+                psychology: persona.psychology
+            });
+
+            if (!error && data) {
+                return {
+                    ...persona,
+                    id: data.id,
+                    createdAt: data.created_at,
+                    trainingLevel: 0
+                };
+            }
+        }
+
+        // Fallback to localStorage
+        const personas = this.getPersonasSync();
         persona.id = this.generateId();
         persona.createdAt = new Date().toISOString();
         persona.trainingLevel = 0;
@@ -51,8 +121,22 @@ const GiftStorage = {
         return persona;
     },
 
-    updatePersona(id, updates) {
-        const personas = this.getPersonas();
+    async updatePersona(id, updates) {
+        // Try Supabase first
+        if (this._useSupabase()) {
+            const { data, error } = await GiftSupabase.updatePersona(id, {
+                ...updates,
+                budget_range: updates.budget,
+                training_level: updates.trainingLevel
+            });
+
+            if (!error) {
+                return data;
+            }
+        }
+
+        // Fallback to localStorage
+        const personas = this.getPersonasSync();
         const index = personas.findIndex(p => p.id === id);
         if (index !== -1) {
             personas[index] = { ...personas[index], ...updates };
@@ -62,19 +146,64 @@ const GiftStorage = {
         return null;
     },
 
-    deletePersona(id) {
-        const personas = this.getPersonas();
+    async deletePersona(id) {
+        // Try Supabase first
+        if (this._useSupabase()) {
+            await GiftSupabase.deletePersona(id);
+        }
+
+        // Also remove from localStorage
+        const personas = this.getPersonasSync();
         const filtered = personas.filter(p => p.id !== id);
         this.setPersonas(filtered);
     },
 
-    getPersonaById(id) {
-        const personas = this.getPersonas();
+    async getPersonaById(id) {
+        // Try Supabase first
+        if (this._useSupabase()) {
+            const persona = await GiftSupabase.getPersonaById(id);
+            if (persona) {
+                return {
+                    id: persona.id,
+                    name: persona.name,
+                    relationship: persona.relationship,
+                    birthday: persona.birthday_month && persona.birthday_day ?
+                        `${new Date().getFullYear()}-${String(persona.birthday_month).padStart(2, '0')}-${String(persona.birthday_day).padStart(2, '0')}` :
+                        null,
+                    interests: persona.interests || [],
+                    style: persona.style,
+                    budget: persona.budget_range,
+                    trainingLevel: persona.training_level || 0,
+                    createdAt: persona.created_at,
+                    psychology: persona.psychology
+                };
+            }
+        }
+
+        // Fallback to localStorage
+        const personas = this.getPersonasSync();
+        return personas.find(p => p.id === id) || null;
+    },
+
+    // Sync version for backward compatibility
+    getPersonaByIdSync(id) {
+        const personas = this.getPersonasSync();
         return personas.find(p => p.id === id) || null;
     },
 
     // ==================== SESSIONS ====================
-    getSessions() {
+    async getSessions() {
+        // Try Supabase first
+        if (this._useSupabase()) {
+            return await GiftSupabase.getSessions();
+        }
+
+        // Fallback to localStorage
+        const data = localStorage.getItem(this.KEYS.SESSIONS);
+        return data ? JSON.parse(data) : [];
+    },
+
+    getSessionsSync() {
         const data = localStorage.getItem(this.KEYS.SESSIONS);
         return data ? JSON.parse(data) : [];
     },
@@ -83,55 +212,120 @@ const GiftStorage = {
         localStorage.setItem(this.KEYS.SESSIONS, JSON.stringify(sessions));
     },
 
-    addSession(session) {
-        const sessions = this.getSessions();
+    async addSession(session) {
+        // Try Supabase first
+        if (this._useSupabase()) {
+            const { data, error } = await GiftSupabase.createSession(session);
+            if (!error && data) {
+                return data;
+            }
+        }
+
+        // Fallback to localStorage
+        const sessions = this.getSessionsSync();
         session.id = this.generateId();
         session.createdAt = new Date().toISOString();
-        sessions.unshift(session); // Add to beginning (newest first)
+        sessions.unshift(session);
         this.setSessions(sessions);
         return session;
     },
 
     deleteSession(id) {
-        const sessions = this.getSessions();
+        const sessions = this.getSessionsSync();
         const filtered = sessions.filter(s => s.id !== id);
         this.setSessions(filtered);
     },
 
     getSessionById(id) {
-        const sessions = this.getSessions();
+        const sessions = this.getSessionsSync();
         return sessions.find(s => s.id === id) || null;
     },
 
     getSessionsByPersona(personaId) {
-        const sessions = this.getSessions();
+        const sessions = this.getSessionsSync();
         return sessions.filter(s => s.personaId === personaId);
     },
 
     // ==================== CALENDAR ====================
-    getCalendarEvents() {
+    async getCalendarEvents() {
+        // Try Supabase first
+        if (this._useSupabase()) {
+            const events = await GiftSupabase.getCalendarEvents();
+            if (events.length > 0) {
+                return events.map(e => ({
+                    id: e.id,
+                    title: e.title,
+                    date: e.event_date,
+                    type: e.event_type,
+                    personaId: e.persona_id,
+                    icon: this._getEventIcon(e.event_type, e.title)
+                }));
+            }
+        }
+
+        // Fallback to localStorage or default holidays
         const data = localStorage.getItem(this.KEYS.CALENDAR);
         if (data) {
             return JSON.parse(data);
         }
-        // Return default holidays if no custom events
         return this.getDefaultHolidays();
+    },
+
+    _getEventIcon(type, title) {
+        if (type === 'birthday') return '🎂';
+        if (type === 'anniversary') return '💍';
+
+        // Holiday icons
+        const holidayIcons = {
+            "Valentine's Day": '❤️',
+            "Mother's Day": '💐',
+            "Father's Day": '👔',
+            "Halloween": '🎃',
+            "Thanksgiving": '🦃',
+            "Christmas": '🎄',
+            "New Year's Eve": '🎉'
+        };
+        return holidayIcons[title] || '📅';
     },
 
     setCalendarEvents(events) {
         localStorage.setItem(this.KEYS.CALENDAR, JSON.stringify(events));
     },
 
-    addCalendarEvent(event) {
-        const events = this.getCalendarEvents();
+    async addCalendarEvent(event) {
+        // Try Supabase first
+        if (this._useSupabase()) {
+            const { data, error } = await GiftSupabase.createCalendarEvent({
+                title: event.title,
+                event_date: event.date,
+                event_type: event.type || 'custom',
+                persona_id: event.personaId
+            });
+
+            if (!error && data) {
+                return {
+                    id: data.id,
+                    ...event
+                };
+            }
+        }
+
+        // Fallback to localStorage
+        const events = await this.getCalendarEvents();
         event.id = this.generateId();
         events.push(event);
         this.setCalendarEvents(events);
         return event;
     },
 
-    deleteCalendarEvent(id) {
-        const events = this.getCalendarEvents();
+    async deleteCalendarEvent(id) {
+        // Try Supabase first
+        if (this._useSupabase()) {
+            await GiftSupabase.deleteCalendarEvent(id);
+        }
+
+        // Also remove from localStorage
+        const events = JSON.parse(localStorage.getItem(this.KEYS.CALENDAR) || '[]');
         const filtered = events.filter(e => e.id !== id);
         this.setCalendarEvents(filtered);
     },
@@ -177,6 +371,21 @@ const GiftStorage = {
         localStorage.removeItem(this.KEYS.CURRENT_DISCOVERY);
     },
 
+    // ==================== REGION ====================
+    getRegion() {
+        return GiftSupabase?.region ||
+               localStorage.getItem(this.KEYS.REGION) ||
+               GiftConfig?.DEFAULT_REGION ||
+               'UK';
+    },
+
+    setRegion(regionCode) {
+        localStorage.setItem(this.KEYS.REGION, regionCode);
+        if (GiftSupabase) {
+            GiftSupabase.setRegion(regionCode);
+        }
+    },
+
     // ==================== UTILITY ====================
     generateId() {
         return 'id_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
@@ -189,12 +398,13 @@ const GiftStorage = {
     },
 
     // Export all data (for backup)
-    exportData() {
+    async exportData() {
         return {
             user: this.getUser(),
-            personas: this.getPersonas(),
-            sessions: this.getSessions(),
-            calendar: this.getCalendarEvents(),
+            personas: await this.getPersonas(),
+            sessions: await this.getSessions(),
+            calendar: await this.getCalendarEvents(),
+            region: this.getRegion(),
             exportedAt: new Date().toISOString()
         };
     },
@@ -205,6 +415,7 @@ const GiftStorage = {
         if (data.personas) this.setPersonas(data.personas);
         if (data.sessions) this.setSessions(data.sessions);
         if (data.calendar) this.setCalendarEvents(data.calendar);
+        if (data.region) this.setRegion(data.region);
     }
 };
 

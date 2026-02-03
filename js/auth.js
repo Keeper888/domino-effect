@@ -1,12 +1,13 @@
 /**
  * Gift Giver - Authentication Logic
- * Handles signup and login forms
+ * Handles signup and login forms with Supabase Auth
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     initSignupForm();
     initLoginForm();
     initPasswordStrength();
+    initSocialLogin();
 });
 
 function initSignupForm() {
@@ -47,23 +48,60 @@ function initSignupForm() {
 
         if (hasErrors) return;
 
-        // Create user
         const submitBtn = form.querySelector('button[type="submit"]');
         GiftApp.setButtonLoading(submitBtn, true);
 
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 800));
-
         try {
-            const user = GiftApp.login(email, password, name);
-            GiftApp.showToast('Account created successfully!', 'success');
+            // Try Supabase auth if configured
+            if (GiftConfig.isConfigured() && GiftSupabase.client) {
+                const { data, error } = await GiftSupabase.signUp(email, password, name);
+
+                if (error) {
+                    throw new Error(error.message);
+                }
+
+                // Check if email confirmation is required
+                if (data.user && !data.session) {
+                    GiftApp.showToast('Check your email to confirm your account!', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                    return;
+                }
+
+                GiftApp.showToast('Account created successfully!', 'success');
+            } else {
+                // Fallback to localStorage for offline mode
+                const user = {
+                    id: GiftStorage.generateId(),
+                    email: email,
+                    name: name,
+                    createdAt: new Date().toISOString()
+                };
+                GiftStorage.setUser(user);
+                GiftApp.showToast('Account created (offline mode)', 'success');
+            }
 
             // Redirect to dashboard
             setTimeout(() => {
                 window.location.href = '../dashboard.html';
             }, 500);
+
         } catch (error) {
-            GiftApp.showToast('Something went wrong. Please try again.', 'error');
+            console.error('[Auth] Signup error:', error);
+
+            // Handle specific Supabase errors
+            let errorMessage = 'Something went wrong. Please try again.';
+
+            if (error.message.includes('already registered')) {
+                errorMessage = 'This email is already registered. Try logging in.';
+            } else if (error.message.includes('password')) {
+                errorMessage = 'Password is too weak. Use at least 6 characters.';
+            } else if (error.message.includes('email')) {
+                errorMessage = 'Please enter a valid email address.';
+            }
+
+            GiftApp.showToast(errorMessage, 'error');
             GiftApp.setButtonLoading(submitBtn, false);
         }
     });
@@ -79,6 +117,7 @@ function initLoginForm() {
 
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
+        const remember = document.getElementById('remember')?.checked || false;
 
         // Validation
         let hasErrors = false;
@@ -95,24 +134,54 @@ function initLoginForm() {
 
         if (hasErrors) return;
 
-        // Login user
         const submitBtn = form.querySelector('button[type="submit"]');
         GiftApp.setButtonLoading(submitBtn, true);
 
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 800));
-
         try {
-            // For MVP, accept any valid email/password combo
-            const user = GiftApp.login(email, password);
-            GiftApp.showToast('Welcome back!', 'success');
+            // Try Supabase auth if configured
+            if (GiftConfig.isConfigured() && GiftSupabase.client) {
+                const { data, error } = await GiftSupabase.signIn(email, password);
+
+                if (error) {
+                    throw new Error(error.message);
+                }
+
+                GiftApp.showToast('Welcome back!', 'success');
+
+                // Store remember preference
+                if (remember) {
+                    localStorage.setItem('giftgiver_remember', 'true');
+                }
+            } else {
+                // Fallback to localStorage for offline mode
+                const user = {
+                    id: GiftStorage.generateId(),
+                    email: email,
+                    name: email.split('@')[0],
+                    createdAt: new Date().toISOString()
+                };
+                GiftStorage.setUser(user);
+                GiftApp.showToast('Welcome back! (offline mode)', 'success');
+            }
 
             // Redirect to dashboard
             setTimeout(() => {
                 window.location.href = '../dashboard.html';
             }, 500);
+
         } catch (error) {
-            GiftApp.showToast('Invalid email or password', 'error');
+            console.error('[Auth] Login error:', error);
+
+            // Handle specific Supabase errors
+            let errorMessage = 'Invalid email or password';
+
+            if (error.message.includes('Email not confirmed')) {
+                errorMessage = 'Please confirm your email before logging in.';
+            } else if (error.message.includes('Invalid login')) {
+                errorMessage = 'Invalid email or password. Please try again.';
+            }
+
+            GiftApp.showToast(errorMessage, 'error');
             GiftApp.setButtonLoading(submitBtn, false);
         }
     });
@@ -166,6 +235,8 @@ function updateStrengthUI(strength) {
 
     segments.forEach((segId, index) => {
         const segment = document.getElementById(segId);
+        if (!segment) return;
+
         segment.className = 'strength-segment';
 
         if (index < strength.level) {
@@ -178,9 +249,58 @@ function updateStrengthUI(strength) {
     }
 }
 
-// Social login handlers (placeholder for future implementation)
-document.querySelectorAll('.auth-social-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        GiftApp.showToast('Social login coming soon!', 'info');
+function initSocialLogin() {
+    // Google OAuth handler
+    document.querySelectorAll('.auth-social-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            if (!GiftConfig.isConfigured() || !GiftSupabase.client) {
+                GiftApp.showToast('Social login requires online connection', 'info');
+                return;
+            }
+
+            try {
+                const { data, error } = await GiftSupabase.client.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                        redirectTo: window.location.origin + '/pages/dashboard.html'
+                    }
+                });
+
+                if (error) {
+                    throw error;
+                }
+
+                // Redirect happens automatically
+            } catch (error) {
+                console.error('[Auth] Social login error:', error);
+                GiftApp.showToast('Social login failed. Try email signup.', 'error');
+            }
+        });
     });
-});
+}
+
+// Password reset handler
+async function resetPassword(email) {
+    if (!GiftConfig.isConfigured() || !GiftSupabase.client) {
+        GiftApp.showToast('Password reset requires online connection', 'info');
+        return;
+    }
+
+    try {
+        const { error } = await GiftSupabase.client.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.origin + '/pages/auth/reset-password.html'
+        });
+
+        if (error) {
+            throw error;
+        }
+
+        GiftApp.showToast('Check your email for reset instructions', 'success');
+    } catch (error) {
+        console.error('[Auth] Password reset error:', error);
+        GiftApp.showToast('Failed to send reset email', 'error');
+    }
+}
+
+// Make reset function available globally
+window.resetPassword = resetPassword;

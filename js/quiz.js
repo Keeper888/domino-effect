@@ -1,6 +1,6 @@
 /**
  * Gift Giver - Quiz Wizard Logic
- * 7-question persona creation wizard
+ * 7-question persona creation wizard with OCEAN psychology scoring
  */
 
 const QuizWizard = {
@@ -62,14 +62,14 @@ const QuizWizard = {
             subtitle: "Select 1-4 activities they enjoy",
             maxSelect: 4,
             options: [
-                { value: 'gaming', icon: '🎮', label: 'Gaming' },
-                { value: 'music', icon: '🎵', label: 'Music' },
-                { value: 'cooking', icon: '👨‍🍳', label: 'Cooking' },
-                { value: 'travel', icon: '✈️', label: 'Travel' },
-                { value: 'tech', icon: '💻', label: 'Tech' },
-                { value: 'fitness', icon: '🧘', label: 'Yoga/Gym' },
-                { value: 'pets', icon: '🐕', label: 'With Pets' },
-                { value: 'shopping', icon: '🛍️', label: 'Shopping' }
+                { value: 'gaming', icon: '🎮', label: 'Gaming', ocean: { O: 10, E: -10 } },
+                { value: 'music', icon: '🎵', label: 'Music', ocean: { O: 15, E: 5 } },
+                { value: 'cooking', icon: '👨‍🍳', label: 'Cooking', ocean: { O: 10, C: 10 } },
+                { value: 'travel', icon: '✈️', label: 'Travel', ocean: { O: 20, E: 15 } },
+                { value: 'tech', icon: '💻', label: 'Tech', ocean: { O: 15, C: 5 } },
+                { value: 'fitness', icon: '🧘', label: 'Yoga/Gym', ocean: { C: 15, E: 5 } },
+                { value: 'pets', icon: '🐕', label: 'With Pets', ocean: { A: 15, N: -5 } },
+                { value: 'shopping', icon: '🛍️', label: 'Shopping', ocean: { E: 10, O: 5 } }
             ],
             cols: 4
         },
@@ -81,12 +81,12 @@ const QuizWizard = {
             subtitle: "Select up to 3 gift types they'd love",
             maxSelect: 3,
             options: [
-                { value: 'books', icon: '📚', label: 'Books/Journals' },
-                { value: 'selfcare', icon: '🧴', label: 'Self-care' },
-                { value: 'gadgets', icon: '🔌', label: 'Cool Gadgets' },
-                { value: 'jewelry', icon: '💎', label: 'Jewelry' },
-                { value: 'experiences', icon: '🎟️', label: 'Experiences' },
-                { value: 'treats', icon: '🍫', label: 'Treats & Sweets' }
+                { value: 'books', icon: '📚', label: 'Books/Journals', ocean: { O: 15, C: 10, E: -5 } },
+                { value: 'selfcare', icon: '🧴', label: 'Self-care', ocean: { A: 10, N: -10 } },
+                { value: 'gadgets', icon: '🔌', label: 'Cool Gadgets', ocean: { O: 20, C: 5 } },
+                { value: 'jewelry', icon: '💎', label: 'Jewelry', ocean: { E: 5, A: 5 } },
+                { value: 'experiences', icon: '🎟️', label: 'Experiences', ocean: { O: 20, E: 20 } },
+                { value: 'treats', icon: '🍫', label: 'Treats & Sweets', ocean: { A: 10, E: 5 } }
             ],
             cols: 3
         },
@@ -98,14 +98,14 @@ const QuizWizard = {
             subtitle: "Select their aesthetic style",
             isStyle: true,
             options: [
-                { value: 'minimal', icon: '⬜', label: 'Minimal' },
-                { value: 'cozy', icon: '🧸', label: 'Cozy' },
-                { value: 'modern', icon: '🔲', label: 'Modern' },
-                { value: 'vintage', icon: '📻', label: 'Vintage' },
-                { value: 'boho', icon: '🌻', label: 'Boho' },
-                { value: 'kawaii', icon: '🌸', label: 'Kawaii' },
-                { value: 'elegant', icon: '✨', label: 'Elegant' },
-                { value: 'rustic', icon: '🪵', label: 'Rustic' }
+                { value: 'minimal', icon: '⬜', label: 'Minimal', ocean: { C: 15, O: -5 } },
+                { value: 'cozy', icon: '🧸', label: 'Cozy', ocean: { A: 15, N: 5 } },
+                { value: 'modern', icon: '🔲', label: 'Modern', ocean: { O: 10, C: 10 } },
+                { value: 'vintage', icon: '📻', label: 'Vintage', ocean: { O: 15, N: 5 } },
+                { value: 'boho', icon: '🌻', label: 'Boho', ocean: { O: 20, A: 10 } },
+                { value: 'kawaii', icon: '🌸', label: 'Kawaii', ocean: { E: 10, A: 15 } },
+                { value: 'elegant', icon: '✨', label: 'Elegant', ocean: { C: 10, E: 5 } },
+                { value: 'rustic', icon: '🪵', label: 'Rustic', ocean: { A: 10, C: 5 } }
             ]
         },
         {
@@ -130,6 +130,107 @@ const QuizWizard = {
             subtitle: "Review the details and let's find some gifts!"
         }
     ],
+
+    // ==================== PSYCHOLOGY SCORING ====================
+
+    // Calculate OCEAN scores from quiz answers
+    calculateOCEAN() {
+        // Start with baseline scores (50 = neutral)
+        const scores = {
+            openness: 50,           // O - Openness to Experience
+            conscientiousness: 50,  // C - Conscientiousness
+            extraversion: 50,       // E - Extraversion
+            agreeableness: 50,      // A - Agreeableness
+            neuroticism: 50         // N - Neuroticism
+        };
+
+        // Map short keys to full names
+        const keyMap = { O: 'openness', C: 'conscientiousness', E: 'extraversion', A: 'agreeableness', N: 'neuroticism' };
+
+        // Process activities
+        const activities = this.answers.activities || [];
+        const activityQuestion = this.questions.find(q => q.id === 'activities');
+        activities.forEach(act => {
+            const option = activityQuestion.options.find(o => o.value === act);
+            if (option?.ocean) {
+                Object.entries(option.ocean).forEach(([key, value]) => {
+                    scores[keyMap[key]] = Math.max(0, Math.min(100, scores[keyMap[key]] + value));
+                });
+            }
+        });
+
+        // Process gift types
+        const giftTypes = this.answers.giftTypes || [];
+        const giftQuestion = this.questions.find(q => q.id === 'giftTypes');
+        giftTypes.forEach(gift => {
+            const option = giftQuestion.options.find(o => o.value === gift);
+            if (option?.ocean) {
+                Object.entries(option.ocean).forEach(([key, value]) => {
+                    scores[keyMap[key]] = Math.max(0, Math.min(100, scores[keyMap[key]] + value));
+                });
+            }
+        });
+
+        // Process style
+        const style = this.answers.style;
+        if (style) {
+            const styleQuestion = this.questions.find(q => q.id === 'style');
+            const styleOption = styleQuestion.options.find(o => o.value === style);
+            if (styleOption?.ocean) {
+                Object.entries(styleOption.ocean).forEach(([key, value]) => {
+                    scores[keyMap[key]] = Math.max(0, Math.min(100, scores[keyMap[key]] + value));
+                });
+            }
+        }
+
+        // Clamp all values between 0 and 100
+        Object.keys(scores).forEach(key => {
+            scores[key] = Math.max(0, Math.min(100, Math.round(scores[key])));
+        });
+
+        return scores;
+    },
+
+    // Infer MBTI type from OCEAN scores
+    inferMBTI(ocean) {
+        // MBTI inference based on OCEAN correlations
+        // E/I: Extraversion dimension
+        const e_i = ocean.extraversion >= 50 ? 'E' : 'I';
+
+        // S/N: Openness correlates with Intuition
+        const s_n = ocean.openness >= 55 ? 'N' : 'S';
+
+        // T/F: Agreeableness correlates with Feeling
+        const t_f = ocean.agreeableness >= 55 ? 'F' : 'T';
+
+        // J/P: Conscientiousness correlates with Judging
+        const j_p = ocean.conscientiousness >= 55 ? 'J' : 'P';
+
+        return e_i + s_n + t_f + j_p;
+    },
+
+    // Calculate confidence score based on answer diversity
+    calculateConfidence() {
+        let confidence = 50; // Base confidence
+
+        // More activities selected = higher confidence
+        const activities = this.answers.activities || [];
+        confidence += activities.length * 5;
+
+        // More gift types = higher confidence
+        const giftTypes = this.answers.giftTypes || [];
+        confidence += giftTypes.length * 5;
+
+        // Style selected = +10
+        if (this.answers.style) confidence += 10;
+
+        // Budget selected = +5
+        if (this.answers.budget) confidence += 5;
+
+        return Math.min(100, confidence);
+    },
+
+    // ==================== INITIALIZATION ====================
 
     init() {
         // Load any saved quiz state
@@ -340,6 +441,10 @@ const QuizWizard = {
         const styleLabel = this.getOptionLabel('style', style);
         const budgetLabel = this.getOptionLabel('budget', budget);
 
+        // Calculate psychology preview
+        const ocean = this.calculateOCEAN();
+        const mbti = this.inferMBTI(ocean);
+
         // Format birthday display
         let birthdayDisplay = '';
         if (birthday && birthday.month && birthday.day) {
@@ -378,6 +483,21 @@ const QuizWizard = {
                 <div class="quiz-summary-section">
                     <div class="quiz-summary-label">Budget</div>
                     <div class="quiz-summary-value">${budgetLabel}</div>
+                </div>
+
+                <div class="quiz-summary-section quiz-psychology-preview">
+                    <div class="quiz-summary-label">Personality Insights</div>
+                    <div class="quiz-psychology-badge">
+                        <span class="mbti-type">${mbti}</span>
+                        <span class="mbti-label">Inferred Type</span>
+                    </div>
+                    <div class="ocean-bars">
+                        <div class="ocean-bar"><span>O</span><div class="bar"><div class="fill" style="width:${ocean.openness}%"></div></div></div>
+                        <div class="ocean-bar"><span>C</span><div class="bar"><div class="fill" style="width:${ocean.conscientiousness}%"></div></div></div>
+                        <div class="ocean-bar"><span>E</span><div class="bar"><div class="fill" style="width:${ocean.extraversion}%"></div></div></div>
+                        <div class="ocean-bar"><span>A</span><div class="bar"><div class="fill" style="width:${ocean.agreeableness}%"></div></div></div>
+                        <div class="ocean-bar"><span>N</span><div class="bar"><div class="fill" style="width:${ocean.neuroticism}%"></div></div></div>
+                    </div>
                 </div>
             </div>
         `;
@@ -548,13 +668,25 @@ const QuizWizard = {
         });
     },
 
-    complete() {
+    async complete() {
         // Format birthday as ISO date string for current year (for calendar use)
         let birthdayDate = null;
         if (this.answers.birthday && this.answers.birthday.month && this.answers.birthday.day) {
             const year = new Date().getFullYear();
             birthdayDate = `${year}-${this.answers.birthday.month}-${this.answers.birthday.day}`;
         }
+
+        // Calculate psychology profile
+        const oceanScores = this.calculateOCEAN();
+        const mbtiType = this.inferMBTI(oceanScores);
+        const confidence = this.calculateConfidence();
+
+        const psychology = {
+            ...oceanScores,
+            mbti_type: mbtiType,
+            confidence_score: confidence,
+            quiz_answers: this.answers
+        };
 
         // Create persona from answers
         const persona = {
@@ -563,11 +695,12 @@ const QuizWizard = {
             relationship: this.answers.relationship,
             interests: [...(this.answers.activities || []), ...(this.answers.giftTypes || [])],
             style: this.answers.style,
-            budget: this.answers.budget
+            budget: this.answers.budget,
+            psychology: psychology
         };
 
-        // Save persona
-        const savedPersona = GiftStorage.addPersona(persona);
+        // Save persona (will use Supabase if available)
+        const savedPersona = await GiftStorage.addPersona(persona);
 
         // Clear quiz state
         GiftStorage.clearCurrentQuiz();
@@ -577,6 +710,17 @@ const QuizWizard = {
             personaId: savedPersona.id,
             step: 'occasion'
         });
+
+        // Add birthday to calendar if provided
+        if (birthdayDate) {
+            await GiftStorage.addCalendarEvent({
+                title: `${persona.name}'s Birthday`,
+                date: birthdayDate,
+                type: 'birthday',
+                personaId: savedPersona.id,
+                icon: '🎂'
+            });
+        }
 
         // Celebrate and redirect
         const quizCard = document.getElementById('quizCard');
