@@ -5,7 +5,7 @@
 
 const GiftConfig = {
     // Supabase Configuration (Self-hosted on Hetzner via Coolify)
-    SUPABASE_URL: 'http://supabasekong-m4o88ooc4wok0swcgo0ko4go.46.224.103.207.sslip.io',
+    SUPABASE_URL: 'https://api.giftgiver.space',
     SUPABASE_ANON_KEY: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc3MDEyMjI4MCwiZXhwIjo0OTI1Nzk1ODgwLCJyb2xlIjoiYW5vbiJ9.rjTej2Kd_-aYC5sENSJnMnib3Fgc4NmZwCyy13fQgs8',
 
     // Regions with currency settings
