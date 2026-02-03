@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discovery Results - Gift Giver</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/discovery.css">
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="results-page" data-requires-auth="true">
+    <div class="results-container">
+        <!-- Header -->
+        <div class="results-header">
+            <div class="results-icon">🎉</div>
+            <h1 class="results-title">Great choices!</h1>
+            <p class="results-subtitle" id="resultsSubtitle">Here are the gifts you loved</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="results-stats" id="resultsStats">
+            <div class="results-stat">
+                <div class="results-stat-number" id="likedCountStat">0</div>
+                <div class="results-stat-label">Gifts Liked</div>
+            </div>
+            <div class="results-stat">
+                <div class="results-stat-number" id="totalValueStat">$0</div>
+                <div class="results-stat-label">Total Value</div>
+            </div>
+        </div>
+
+        <!-- Results Grid -->
+        <div class="results-grid" id="resultsGrid">
+            <!-- Will be populated by JS -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="results-empty hidden" id="resultsEmpty">
+            <div class="results-empty-icon">💔</div>
+            <h2 class="results-empty-title">No gifts liked yet</h2>
+            <p class="results-empty-text">Go back and like some gifts you'd love to give!</p>
+            <button class="btn btn-primary" onclick="window.location.href='grid.html'">
+                ← Back to Discovery
+            </button>
+        </div>
+
+        <!-- Actions -->
+        <div class="results-actions" id="resultsActions">
+            <button class="btn btn-secondary" id="saveSessionBtn">
+                💾 Save for Later
+            </button>
+            <button class="btn btn-primary" onclick="window.location.href='../dashboard.html'">
+                ✓ Done
+            </button>
+        </div>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- App Scripts -->
+    <script src="../../js/config.js"></script>
+    <script src="../../js/supabase.js"></script>
+    <script src="../../js/storage.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/grid.js"></script>
+    <script src="../../js/dev-nav.js"></script>
+</body>
+</html>

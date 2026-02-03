@@ -1,0 +1,385 @@
+/* ==================== PSYCHOLOGY VISUALIZATION ====================*/
+
+/* Psychology Preview in Quiz Summary */
+.quiz-psychology-preview {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8f4f8 100%);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    margin-top: var(--space-md);
+}
+
+.quiz-psychology-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: var(--space-md);
+}
+
+.mbti-type {
+    font-family: var(--font-button);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-blue-primary);
+    background: linear-gradient(135deg, #1565c0 0%, #1976d2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 2px;
+}
+
+.mbti-label {
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* OCEAN Bars */
+.ocean-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ocean-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ocean-bar span {
+    width: 20px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: var(--color-text-medium);
+}
+
+.ocean-bar .bar {
+    flex: 1;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.ocean-bar .fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease-out;
+}
+
+/* OCEAN trait colors */
+.ocean-bar:nth-child(1) .fill { background: linear-gradient(90deg, #9c27b0, #ba68c8); } /* O - Purple */
+.ocean-bar:nth-child(2) .fill { background: linear-gradient(90deg, #2196f3, #64b5f6); } /* C - Blue */
+.ocean-bar:nth-child(3) .fill { background: linear-gradient(90deg, #ff9800, #ffb74d); } /* E - Orange */
+.ocean-bar:nth-child(4) .fill { background: linear-gradient(90deg, #4caf50, #81c784); } /* A - Green */
+.ocean-bar:nth-child(5) .fill { background: linear-gradient(90deg, #f44336, #e57373); } /* N - Red */
+
+/* Persona Card Psychology Section */
+.persona-psychology {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-sm);
+    padding: var(--space-md);
+    margin-top: var(--space-md);
+}
+
+.persona-psychology-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-sm);
+}
+
+.persona-mbti {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    background: white;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    color: var(--color-blue-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.persona-confidence {
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+}
+
+/* OCEAN Mini Chart */
+.ocean-mini-chart {
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    margin-top: var(--space-sm);
+}
+
+.ocean-mini-bar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.ocean-mini-bar .trait {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--color-text-medium);
+}
+
+.ocean-mini-bar .bar-container {
+    width: 100%;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+.ocean-mini-bar .bar-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 4px;
+    transition: height 0.5s ease-out;
+}
+
+.ocean-mini-bar:nth-child(1) .bar-fill { background: #9c27b0; }
+.ocean-mini-bar:nth-child(2) .bar-fill { background: #2196f3; }
+.ocean-mini-bar:nth-child(3) .bar-fill { background: #ff9800; }
+.ocean-mini-bar:nth-child(4) .bar-fill { background: #4caf50; }
+.ocean-mini-bar:nth-child(5) .bar-fill { background: #f44336; }
+
+.ocean-mini-bar .value {
+    font-size: 0.6rem;
+    color: var(--color-text-light);
+}
+
+/* Match Score Badge */
+.match-score-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.match-score-badge.high {
+    background: rgba(76, 175, 80, 0.15);
+    color: #2e7d32;
+}
+
+.match-score-badge.medium {
+    background: rgba(255, 152, 0, 0.15);
+    color: #e65100;
+}
+
+.match-score-badge.low {
+    background: rgba(244, 67, 54, 0.15);
+    color: #c62828;
+}
+
+/* Product Card Match Indicator */
+.product-match-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.95);
+    font-size: 0.7rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+    z-index: 2;
+}
+
+.product-match-indicator.excellent {
+    background: linear-gradient(135deg, #4caf50, #81c784);
+    color: white;
+}
+
+.product-match-indicator.good {
+    background: linear-gradient(135deg, #2196f3, #64b5f6);
+    color: white;
+}
+
+.product-match-indicator.fair {
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--color-text-medium);
+}
+
+/* Psychology Tooltip */
+.psychology-tooltip {
+    position: relative;
+    cursor: help;
+}
+
+.psychology-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 12px;
+    background: var(--color-text-dark);
+    color: white;
+    font-size: 0.75rem;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 100;
+}
+
+.psychology-tooltip:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* MBTI Type Descriptions */
+.mbti-descriptions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-sm);
+}
+
+.mbti-type-card {
+    padding: var(--space-md);
+    background: white;
+    border-radius: var(--radius-md);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mbti-type-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.mbti-type-card.selected {
+    border: 2px solid var(--color-blue-primary);
+}
+
+.mbti-type-card .type {
+    font-family: var(--font-button);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-blue-primary);
+}
+
+.mbti-type-card .name {
+    font-size: 0.75rem;
+    color: var(--color-text-medium);
+    margin-top: 4px;
+}
+
+/* Region Selector */
+.region-selector {
+    display: flex;
+    gap: 8px;
+    margin-bottom: var(--space-md);
+}
+
+.region-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 2px solid transparent;
+    border-radius: var(--radius-pill);
+    background: white;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.region-btn:hover {
+    border-color: var(--color-blue-primary);
+}
+
+.region-btn.active {
+    background: var(--color-blue-primary);
+    color: white;
+    border-color: var(--color-blue-primary);
+}
+
+.region-btn .flag {
+    font-size: 1.25rem;
+}
+
+.region-btn .currency {
+    font-weight: 600;
+}
+
+/* Price Display with Region */
+.price-regional {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.price-regional .symbol {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-medium);
+}
+
+.price-regional .amount {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+
+.price-regional .original {
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+    text-decoration: line-through;
+    margin-left: 8px;
+}
+
+/* Offline Mode Indicator */
+.offline-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(255, 152, 0, 0.1);
+    border: 1px solid rgba(255, 152, 0, 0.3);
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    color: #e65100;
+    margin-bottom: var(--space-md);
+}
+
+.offline-indicator::before {
+    content: '⚠️';
+}
+
+/* Animation for score reveal */
+@keyframes scoreReveal {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.score-reveal {
+    animation: scoreReveal 0.5s ease-out;
+}

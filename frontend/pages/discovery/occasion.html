@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Occasion - Gift Giver</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/discovery.css">
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="discovery-page" data-requires-auth="true">
+    <div class="discovery-container">
+        <!-- Back Link -->
+        <a href="../dashboard.html" class="discovery-back">
+            <span>←</span> Back to Dashboard
+        </a>
+
+        <!-- Persona Context -->
+        <div class="persona-context" id="personaContext">
+            <!-- Will be populated by JS -->
+        </div>
+
+        <!-- Header -->
+        <div class="discovery-header">
+            <div class="discovery-icon">🎉</div>
+            <h1 class="discovery-title">What's the occasion?</h1>
+            <p class="discovery-subtitle">Select what you're shopping for</p>
+        </div>
+
+        <!-- Occasion Grid -->
+        <div class="occasion-grid" id="occasionGrid">
+            <!-- Will be populated by JS -->
+        </div>
+
+        <!-- Navigation -->
+        <div class="discovery-nav">
+            <button class="discovery-nav-prev" onclick="history.back()">
+                <span>←</span> Back
+            </button>
+            <button class="btn btn-primary" id="continueBtn" disabled>
+                Continue <span>→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- App Scripts -->
+    <script src="../../js/config.js"></script>
+    <script src="../../js/supabase.js"></script>
+    <script src="../../js/storage.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/discovery.js"></script>
+    <script src="../../js/dev-nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Persona - Gift Giver</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/quiz.css">
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="quiz-page" data-requires-auth="true">
+    <div class="quiz-container">
+        <!-- Back Link -->
+        <a href="dashboard.html" class="quiz-back">
+            <span>←</span> Back to Dashboard
+        </a>
+
+        <!-- Progress Bar -->
+        <div class="quiz-progress-container">
+            <div class="quiz-progress-header">
+                <span class="quiz-progress-steps">Question <span id="currentStep">1</span> of 7</span>
+                <span class="quiz-progress-percent"><span id="progressPercent">14</span>%</span>
+            </div>
+            <div class="quiz-progress-bar">
+                <div class="quiz-progress-fill" id="progressFill" style="width: 14%"></div>
+            </div>
+        </div>
+
+        <!-- Quiz Card Container -->
+        <div class="quiz-card" id="quizCard">
+            <!-- Questions will be rendered here by JS -->
+        </div>
+
+        <!-- Navigation -->
+        <div class="quiz-nav">
+            <button class="quiz-nav-prev" id="prevBtn" disabled>
+                <span>←</span> Previous
+            </button>
+            <button class="btn btn-primary quiz-nav-next" id="nextBtn">
+                Next <span>→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- App Scripts -->
+    <script src="../js/config.js"></script>
+    <script src="../js/supabase.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/quiz.js"></script>
+    <script src="../js/dev-nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Gift Giver</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page" data-requires-auth="true">
+    <!-- Navigation -->
+    <nav class="navbar-auth">
+        <a href="../index.html" class="logo">
+            <img src="../assets/logo.png" alt="Gift Giver" class="logo-icon">
+            <span class="logo-text">Gift Giver</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+            <li><a href="persona/list.html" class="nav-link">My Personas</a></li>
+            <li><a href="calendar.html" class="nav-link">Calendar</a></li>
+            <li><a href="browse/index.html" class="nav-link">Browse</a></li>
+        </ul>
+        <div class="user-menu">
+            <div class="user-dropdown">
+                <div class="user-avatar">??</div>
+                <div class="dropdown-menu">
+                    <span class="dropdown-item" data-user-name>User</span>
+                    <div class="dropdown-divider"></div>
+                    <a href="saved/index.html" class="dropdown-item">Saved Results</a>
+                    <a href="#" class="dropdown-item">Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item" data-action="logout">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <h1 class="dashboard-greeting" data-greeting>Good afternoon!</h1>
+            <p class="dashboard-subtext">Let's find the perfect gift for someone special</p>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <a href="discovery/select-persona.html" class="quick-action-btn primary">
+                <span class="quick-action-icon">🎯</span>
+                Start Discovery
+            </a>
+            <a href="persona/list.html" class="quick-action-btn">
+                <span class="quick-action-icon">👥</span>
+                Manage Personas
+            </a>
+            <a href="saved/index.html" class="quick-action-btn">
+                <span class="quick-action-icon">💾</span>
+                View Saved Results
+            </a>
+            <a href="calendar.html" class="quick-action-btn">
+                <span class="quick-action-icon">📅</span>
+                Calendar
+            </a>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-number" id="personaCount">0</div>
+                <div class="stat-label">Personas Created</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="sessionCount">0</div>
+                <div class="stat-label">Discovery Sessions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="savedCount">0</div>
+                <div class="stat-label">Gifts Saved</div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="dashboard-grid">
+            <!-- Upcoming Occasions -->
+            <div class="widget-card">
+                <div class="widget-header orange">
+                    <span class="widget-title">Upcoming Occasions</span>
+                    <a href="calendar.html" class="widget-empty-btn">View All</a>
+                </div>
+                <div class="widget-content">
+                    <div class="event-list" id="eventList">
+                        <!-- Events will be populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="widget-card">
+                <div class="widget-header blue">
+                    <span class="widget-title">Recent Activity</span>
+                </div>
+                <div class="widget-content">
+                    <div class="activity-list" id="activityList">
+                        <!-- Activities will be populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Persona Training -->
+            <div class="widget-card">
+                <div class="widget-header red">
+                    <span class="widget-title">Persona Training</span>
+                    <a href="persona/list.html" class="widget-empty-btn">Manage</a>
+                </div>
+                <div class="widget-content">
+                    <div class="training-list" id="trainingList">
+                        <!-- Training items will be populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Saved Sessions -->
+            <div class="widget-card">
+                <div class="widget-header">
+                    <span class="widget-title">Recent Saved Sessions</span>
+                    <a href="saved/index.html" class="widget-empty-btn">View All</a>
+                </div>
+                <div class="widget-content">
+                    <div class="sessions-compact" id="sessionsList">
+                        <!-- Sessions will be populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- App Scripts -->
+    <script src="../js/config.js"></script>
+    <script src="../js/supabase.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/dev-nav.js"></script>
+</body>
+</html>

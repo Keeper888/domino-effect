@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar - Gift Giver</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/calendar.css">
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="calendar-page" data-requires-auth="true">
+    <!-- Navigation -->
+    <nav class="navbar-auth">
+        <a href="../index.html" class="logo">
+            <img src="../assets/logo.png" alt="Gift Giver" class="logo-icon">
+            <span class="logo-text">Gift Giver</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+            <li><a href="persona/list.html" class="nav-link">My Personas</a></li>
+            <li><a href="calendar.html" class="nav-link active">Calendar</a></li>
+            <li><a href="browse/index.html" class="nav-link">Browse</a></li>
+        </ul>
+        <div class="user-menu">
+            <div class="user-dropdown">
+                <div class="user-avatar">??</div>
+                <div class="dropdown-menu">
+                    <span class="dropdown-item" data-user-name>User</span>
+                    <div class="dropdown-divider"></div>
+                    <a href="saved/index.html" class="dropdown-item">Saved Results</a>
+                    <a href="#" class="dropdown-item">Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item" data-action="logout">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <!-- Header -->
+        <div class="calendar-header">
+            <h1>Gift Calendar</h1>
+            <button class="btn btn-primary btn-md" onclick="openAddEventModal()">
+                + Add Event
+            </button>
+        </div>
+
+        <!-- Calendar Layout -->
+        <div class="calendar-layout">
+            <!-- Mini Calendar -->
+            <div class="mini-calendar">
+                <div class="mini-calendar-header">
+                    <span class="mini-calendar-title" id="calendarTitle">January 2024</span>
+                    <div class="mini-calendar-nav">
+                        <button onclick="prevMonth()">←</button>
+                        <button onclick="nextMonth()">→</button>
+                    </div>
+                </div>
+                <div class="mini-calendar-grid" id="calendarGrid">
+                    <!-- Will be populated by JS -->
+                </div>
+                <div class="calendar-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot birthday"></div>
+                        <span>Birthday</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot holiday"></div>
+                        <span>Holiday</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Events -->
+            <div class="events-section">
+                <div class="events-header">
+                    <span class="events-title">Upcoming Events</span>
+                </div>
+                <div class="events-list" id="eventsList">
+                    <!-- Will be populated by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Event Modal -->
+    <div class="add-event-modal" id="addEventModal">
+        <div class="add-event-content">
+            <div class="add-event-header">
+                <span class="add-event-title">Add Event</span>
+                <button class="add-event-close" onclick="closeAddEventModal()">×</button>
+            </div>
+            <form class="add-event-form" id="addEventForm">
+                <div class="event-type-selector">
+                    <button type="button" class="event-type-btn selected" data-type="birthday">
+                        <span class="event-type-icon">🎂</span>
+                        <span class="event-type-label">Birthday</span>
+                    </button>
+                    <button type="button" class="event-type-btn" data-type="custom">
+                        <span class="event-type-icon">🎁</span>
+                        <span class="event-type-label">Custom</span>
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="eventName">Event Name</label>
+                    <input type="text" id="eventName" class="form-input" placeholder="e.g., Mom's Birthday" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="eventDate">Date</label>
+                    <input type="date" id="eventDate" class="form-input" required>
+                </div>
+
+                <div class="form-group" id="personaSelectGroup">
+                    <label class="form-label" for="eventPersona">Link to Persona (Optional)</label>
+                    <select id="eventPersona" class="form-input">
+                        <option value="">None</option>
+                        <!-- Will be populated by JS -->
+                    </select>
+                </div>
+
+                <div class="add-event-actions">
+                    <button type="button" class="btn btn-white" onclick="closeAddEventModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- App Scripts -->
+    <script src="../js/config.js"></script>
+    <script src="../js/supabase.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/calendar.js"></script>
+    <script src="../js/dev-nav.js"></script>
+</body>
+</html>

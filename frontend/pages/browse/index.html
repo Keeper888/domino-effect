@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Gifts - Gift Giver</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/browse.css">
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="browse-page">
+    <!-- Navigation -->
+    <nav class="navbar-auth">
+        <a href="../../index.html" class="logo">
+            <img src="../../assets/logo.png" alt="Gift Giver" class="logo-icon">
+            <span class="logo-text">Gift Giver</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="../dashboard.html" class="nav-link">Dashboard</a></li>
+            <li><a href="../persona/list.html" class="nav-link">My Personas</a></li>
+            <li><a href="../calendar.html" class="nav-link">Calendar</a></li>
+            <li><a href="index.html" class="nav-link active">Browse</a></li>
+        </ul>
+        <div class="user-menu">
+            <div class="user-dropdown">
+                <div class="user-avatar">??</div>
+                <div class="dropdown-menu">
+                    <span class="dropdown-item" data-user-name>User</span>
+                    <div class="dropdown-divider"></div>
+                    <a href="../saved/index.html" class="dropdown-item">Saved Results</a>
+                    <a href="#" class="dropdown-item">Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item" data-action="logout">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <!-- Header -->
+        <div class="browse-header">
+            <h1>Browse Gifts</h1>
+            <p class="browse-subtitle">Explore our curated collection of perfect gifts</p>
+        </div>
+
+        <!-- Search -->
+        <div class="browse-search">
+            <span class="browse-search-icon">🔍</span>
+            <input type="text" placeholder="Search for gifts..." id="searchInput">
+        </div>
+
+        <!-- Categories Grid -->
+        <div class="categories-grid">
+            <a href="category.html?cat=her" class="category-card">
+                <span class="category-icon">👩</span>
+                <span class="category-name">For Her</span>
+                <span class="category-count">45+ gifts</span>
+            </a>
+            <a href="category.html?cat=him" class="category-card">
+                <span class="category-icon">👨</span>
+                <span class="category-name">For Him</span>
+                <span class="category-count">38+ gifts</span>
+            </a>
+            <a href="category.html?cat=kids" class="category-card">
+                <span class="category-icon">👶</span>
+                <span class="category-name">For Kids</span>
+                <span class="category-count">52+ gifts</span>
+            </a>
+            <a href="category.html?cat=home" class="category-card">
+                <span class="category-icon">🏠</span>
+                <span class="category-name">For Home</span>
+                <span class="category-count">30+ gifts</span>
+            </a>
+            <a href="category.html?cat=tech" class="category-card">
+                <span class="category-icon">💻</span>
+                <span class="category-name">Tech Gadgets</span>
+                <span class="category-count">25+ gifts</span>
+            </a>
+            <a href="category.html?cat=experiences" class="category-card">
+                <span class="category-icon">🎟️</span>
+                <span class="category-name">Experiences</span>
+                <span class="category-count">20+ gifts</span>
+            </a>
+            <a href="category.html?cat=selfcare" class="category-card">
+                <span class="category-icon">🧴</span>
+                <span class="category-name">Self-Care</span>
+                <span class="category-count">35+ gifts</span>
+            </a>
+            <a href="category.html?cat=food" class="category-card">
+                <span class="category-icon">🍫</span>
+                <span class="category-name">Food & Treats</span>
+                <span class="category-count">28+ gifts</span>
+            </a>
+        </div>
+
+        <!-- Trending Section -->
+        <div class="browse-section">
+            <div class="browse-section-header">
+                <h2 class="browse-section-title">Trending Now</h2>
+                <a href="category.html?cat=trending" class="btn btn-white btn-sm">View All</a>
+            </div>
+            <div class="products-grid" id="trendingGrid">
+                <!-- Will be populated by JS -->
+            </div>
+        </div>
+
+        <!-- Budget-Friendly Section -->
+        <div class="browse-section">
+            <div class="browse-section-header">
+                <h2 class="browse-section-title">Budget-Friendly (Under $50)</h2>
+                <a href="category.html?cat=budget" class="btn btn-white btn-sm">View All</a>
+            </div>
+            <div class="products-grid" id="budgetGrid">
+                <!-- Will be populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- App Scripts -->
+    <script src="../../js/config.js"></script>
+    <script src="../../js/supabase.js"></script>
+    <script src="../../js/storage.js"></script>
+    <script src="../../js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTrendingProducts();
+            loadBudgetProducts();
+        });
+
+        function loadTrendingProducts() {
+            const grid = document.getElementById('trendingGrid');
+            const products = [
+                { id: 1, title: 'Wireless Earbuds Pro', price: 79, image: 'https://via.placeholder.com/280x180/e3f2fd/1976d2?text=Earbuds', category: 'Tech' },
+                { id: 2, title: 'Luxury Spa Set', price: 65, image: 'https://via.placeholder.com/280x180/e3f2fd/1976d2?text=Spa+Set', category: 'Self-Care' },
+                { id: 3, title: 'Smart Watch Band', price: 45, image: 'https://via.placeholder.com/280x180/e3f2fd/1976d2?text=Watch', category: 'Tech' },
+                { id: 4, title: 'Gourmet Chocolate Box', price: 35, image: 'https://via.placeholder.com/280x180/e3f2fd/1976d2?text=Chocolate', category: 'Food' }
+            ];
+
+            grid.innerHTML = products.map(p => renderProductCard(p)).join('');
+        }
+
+        function loadBudgetProducts() {
+            const grid = document.getElementById('budgetGrid');
+            const products = [
+                { id: 5, title: 'Scented Candle Set', price: 28, image: 'https://via.placeholder.com/280x180/e3f2fd/1976d2?text=Candles', category: 'Home' },
+                { id: 6, title: 'Cozy Throw Blanket', price: 35, image: 'https://via.placeholder.com/280x180/e3f2fd/1976d2?text=Blanket', category: 'Home' },
+                { id: 7, title: 'Journal & Pen Set', price: 22, image: 'https://via.placeholder.com/280x180/e3f2fd/1976d2?text=Journal', category: 'Stationery' },
+                { id: 8, title: 'Plant Starter Kit', price: 30, image: 'https://via.placeholder.com/280x180/e3f2fd/1976d2?text=Plants', category: 'Home' }
+            ];
+
+            grid.innerHTML = products.map(p => renderProductCard(p)).join('');
+        }
+
+        function renderProductCard(product) {
+            return `
+                <div class="product-card">
+                    <img src="${product.image}" alt="${product.title}" class="product-image">
+                    <div class="product-content">
+                        <div class="product-price">$${product.price}</div>
+                        <div class="product-title">${product.title}</div>
+                        <div class="product-category">${product.category}</div>
+                        <button class="btn btn-orange btn-sm btn-full">View Details</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            if (query.length > 2) {
+                GiftApp.showToast('Search coming soon!', 'info');
+            }
+        });
+    </script>
+    <script src="../../js/dev-nav.js"></script>
+</body>
+</html>
