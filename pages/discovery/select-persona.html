@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Persona - Gift Giver</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/discovery.css">
+    <link rel="stylesheet" href="../../css/persona.css">
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="discovery-page" data-requires-auth="true">
+    <div class="discovery-container">
+        <!-- Back Link -->
+        <a href="../dashboard.html" class="discovery-back">
+            <span>←</span> Back to Dashboard
+        </a>
+
+        <!-- Header -->
+        <div class="discovery-header">
+            <div class="discovery-icon">🎯</div>
+            <h1 class="discovery-title">Who are you shopping for?</h1>
+            <p class="discovery-subtitle">Select a persona or create a new one</p>
+        </div>
+
+        <!-- Persona Grid -->
+        <div class="persona-select-grid" id="personaGrid">
+            <!-- Will be populated by JS -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="select-empty hidden" id="emptyState">
+            <div class="select-empty-icon">👤</div>
+            <h2 class="select-empty-title">No personas yet</h2>
+            <p class="select-empty-text">Create your first persona to start discovering perfect gifts!</p>
+            <a href="../quiz.html" class="btn btn-primary">
+                + Create Your First Persona
+            </a>
+        </div>
+    </div>
+
+    <style>
+        .persona-select-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .persona-select-card {
+            background: white;
+            border: 3px solid transparent;
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-card);
+        }
+
+        .persona-select-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-red-light);
+        }
+
+        .persona-select-card.add-new {
+            background: transparent;
+            border: 3px dashed #ccc;
+            box-shadow: none;
+        }
+
+        .persona-select-card.add-new:hover {
+            border-color: var(--color-red-primary);
+            background: #fff5f5;
+        }
+
+        .persona-select-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--gradient-red-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto var(--space-md);
+        }
+
+        .persona-select-card.add-new .persona-select-avatar {
+            background: var(--color-bg-light);
+            font-size: 36px;
+        }
+
+        .persona-select-name {
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--color-text-dark);
+            margin-bottom: 4px;
+        }
+
+        .persona-select-relationship {
+            font-size: 14px;
+            color: var(--color-text-medium);
+            margin-bottom: var(--space-sm);
+        }
+
+        .persona-select-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+        }
+
+        .persona-select-tag {
+            background: var(--color-bg-light);
+            color: var(--color-blue-primary);
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .persona-select-sessions {
+            margin-top: var(--space-md);
+            font-size: 12px;
+            color: var(--color-text-light);
+        }
+
+        .select-empty {
+            text-align: center;
+            padding: var(--space-3xl);
+        }
+
+        .select-empty-icon {
+            font-size: 80px;
+            margin-bottom: var(--space-lg);
+            opacity: 0.5;
+        }
+
+        .select-empty-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-text-dark);
+            margin-bottom: var(--space-sm);
+        }
+
+        .select-empty-text {
+            color: var(--color-text-medium);
+            margin-bottom: var(--space-xl);
+        }
+
+        @media (max-width: 768px) {
+            .persona-select-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <script src="../../js/storage.js"></script>
+    <script src="../../js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPersonas();
+        });
+
+        function loadPersonas() {
+            const grid = document.getElementById('personaGrid');
+            const emptyState = document.getElementById('emptyState');
+            const personas = GiftStorage.getPersonas();
+
+            if (personas.length === 0) {
+                grid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.classList.remove('hidden');
+
+            let html = personas.map(persona => {
+                const emoji = GiftApp.getRelationshipEmoji(persona.relationship);
+                const sessions = GiftStorage.getSessionsByPersona(persona.id);
+                const sessionCount = sessions.length;
+
+                const interestTags = (persona.interests || []).slice(0, 3).map(i =>
+                    `<span class="persona-select-tag">${capitalizeFirst(i)}</span>`
+                ).join('');
+
+                return `
+                    <div class="persona-select-card" onclick="selectPersona('${persona.id}')">
+                        <div class="persona-select-avatar">${emoji}</div>
+                        <div class="persona-select-name">${persona.name}</div>
+                        <div class="persona-select-relationship">${capitalizeFirst(persona.relationship || 'Someone Special')}</div>
+                        <div class="persona-select-tags">${interestTags}</div>
+                        ${sessionCount > 0 ? `<div class="persona-select-sessions">📊 ${sessionCount} previous session${sessionCount > 1 ? 's' : ''}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+
+            // Add "Create New" card at the end
+            html += `
+                <div class="persona-select-card add-new" onclick="createNewPersona()">
+                    <div class="persona-select-avatar">+</div>
+                    <div class="persona-select-name">Add New Persona</div>
+                    <div class="persona-select-relationship">Create a new gift recipient</div>
+                </div>
+            `;
+
+            grid.innerHTML = html;
+        }
+
+        function selectPersona(personaId) {
+            // Set discovery state and go to occasion selection
+            GiftStorage.setCurrentDiscovery({
+                personaId: personaId,
+                step: 'occasion'
+            });
+            window.location.href = 'occasion.html';
+        }
+
+        function createNewPersona() {
+            // Clear any existing quiz state and go to quiz
+            GiftStorage.clearCurrentQuiz();
+            window.location.href = '../quiz.html';
+        }
+
+        function capitalizeFirst(str) {
+            if (!str) return '';
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+    </script>
+    <script src="../../js/dev-nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Gifts - Gift Giver</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/discovery.css">
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="grid-page" data-requires-auth="true">
+    <div class="grid-container">
+        <!-- Header -->
+        <div class="grid-header">
+            <h1 id="gridTitle">Discover Gifts</h1>
+            <div class="grid-filters">
+                <button class="grid-filter-btn active" data-filter="all">All</button>
+                <button class="grid-filter-btn" data-filter="liked">Liked</button>
+                <button class="grid-filter-btn" data-filter="new">Undecided</button>
+            </div>
+        </div>
+
+        <!-- Gift Grid -->
+        <div class="gift-grid" id="giftGrid">
+            <!-- Will be populated by JS -->
+        </div>
+    </div>
+
+    <!-- Sticky Footer -->
+    <div class="grid-sticky-footer">
+        <div class="grid-footer-stats">
+            <div class="grid-footer-stat liked">
+                <span class="count" id="likedCount">0</span>
+                <span>❤️ Liked</span>
+            </div>
+            <div class="grid-footer-stat passed">
+                <span class="count" id="passedCount">0</span>
+                <span>✕ Passed</span>
+            </div>
+        </div>
+        <button class="btn btn-primary" id="viewResultsBtn">
+            View Results →
+        </button>
+    </div>
+
+    <script src="../../js/storage.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/grid.js"></script>
+    <script src="../../js/dev-nav.js"></script>
+</body>
+</html>

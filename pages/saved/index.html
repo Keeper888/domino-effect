@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Results - Gift Giver</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/calendar.css">
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="saved-page" data-requires-auth="true">
+    <!-- Navigation -->
+    <nav class="navbar-auth">
+        <a href="../../index.html" class="logo">
+            <img src="../../assets/logo.png" alt="Gift Giver" class="logo-icon">
+            <span class="logo-text">Gift Giver</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="../dashboard.html" class="nav-link">Dashboard</a></li>
+            <li><a href="../persona/list.html" class="nav-link">My Personas</a></li>
+            <li><a href="../calendar.html" class="nav-link">Calendar</a></li>
+            <li><a href="../browse/index.html" class="nav-link">Browse</a></li>
+        </ul>
+        <div class="user-menu">
+            <div class="user-dropdown">
+                <div class="user-avatar">??</div>
+                <div class="dropdown-menu">
+                    <span class="dropdown-item" data-user-name>User</span>
+                    <div class="dropdown-divider"></div>
+                    <a href="index.html" class="dropdown-item">Saved Results</a>
+                    <a href="#" class="dropdown-item">Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item" data-action="logout">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <!-- Header -->
+        <div class="saved-header">
+            <h1>Saved Results</h1>
+            <a href="../quiz.html" class="btn btn-primary btn-md">
+                + New Discovery
+            </a>
+        </div>
+
+        <!-- Sessions Grid -->
+        <div class="sessions-grid" id="sessionsGrid">
+            <!-- Will be populated by JS -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="saved-empty hidden" id="savedEmpty">
+            <div class="saved-empty-icon">💾</div>
+            <h2 class="saved-empty-title">No saved sessions yet</h2>
+            <p class="saved-empty-text">Complete a gift discovery session to see your results here</p>
+            <a href="../quiz.html" class="btn btn-primary">
+                Start Discovery
+            </a>
+        </div>
+    </div>
+
+    <script src="../../js/storage.js"></script>
+    <script src="../../js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSavedSessions();
+        });
+
+        function loadSavedSessions() {
+            const grid = document.getElementById('sessionsGrid');
+            const empty = document.getElementById('savedEmpty');
+            const sessions = GiftStorage.getSessions();
+            const personas = GiftStorage.getPersonas();
+
+            if (sessions.length === 0) {
+                grid.classList.add('hidden');
+                empty.classList.remove('hidden');
+                return;
+            }
+
+            empty.classList.add('hidden');
+            grid.classList.remove('hidden');
+
+            // Get mock gifts for thumbnails
+            const allGifts = GiftApp.getMockGifts(15);
+
+            grid.innerHTML = sessions.map(session => {
+                const persona = personas.find(p => p.id === session.personaId);
+                const emoji = persona ? GiftApp.getRelationshipEmoji(persona.relationship) : '🎁';
+                const personaName = persona?.name || 'Unknown';
+
+                // Get liked gift thumbnails
+                const likedGifts = (session.likedGifts || [])
+                    .map(id => allGifts.find(g => g.id === id))
+                    .filter(Boolean);
+
+                const thumbs = likedGifts.slice(0, 4).map(g =>
+                    `<img src="${g.image}" alt="${g.title}" class="session-gift-thumb">`
+                ).join('');
+
+                const totalValue = likedGifts.reduce((sum, g) => sum + g.price, 0);
+
+                return `
+                    <div class="session-card">
+                        <div class="session-card-header">
+                            <div class="session-persona-avatar">${emoji}</div>
+                            <div class="session-info">
+                                <div class="session-title">${session.occasion || 'Gift Discovery'} for ${personaName}</div>
+                                <div class="session-meta">${getBudgetLabel(session.budget)}</div>
+                            </div>
+                            <div class="session-stats">
+                                <div class="session-stat">
+                                    <div class="session-stat-number">${likedGifts.length}</div>
+                                    <div class="session-stat-label">Gifts</div>
+                                </div>
+                                <div class="session-stat">
+                                    <div class="session-stat-number">$${totalValue}</div>
+                                    <div class="session-stat-label">Total</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="session-card-body">
+                            <div class="session-gifts">
+                                ${thumbs || '<span style="color: #888;">No gifts saved</span>'}
+                            </div>
+                        </div>
+                        <div class="session-card-footer">
+                            <span class="session-date">${GiftApp.formatDate(session.createdAt)}</span>
+                            <div class="session-actions">
+                                <button class="btn btn-white btn-sm" onclick="deleteSession('${session.id}')">
+                                    🗑️ Delete
+                                </button>
+                                <button class="btn btn-orange btn-sm" onclick="continueSession('${session.personaId}')">
+                                    🔄 Shop Again
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getBudgetLabel(budget) {
+            const labels = {
+                'under25': 'Under $25',
+                '25-50': '$25 - $50',
+                '50-100': '$50 - $100',
+                '100-200': '$100 - $200',
+                '200plus': '$200+'
+            };
+            return labels[budget] || budget || 'Any budget';
+        }
+
+        function deleteSession(sessionId) {
+            if (confirm('Delete this session? This cannot be undone.')) {
+                GiftStorage.deleteSession(sessionId);
+                loadSavedSessions();
+                GiftApp.showToast('Session deleted', 'success');
+            }
+        }
+
+        function continueSession(personaId) {
+            GiftStorage.setCurrentDiscovery({
+                personaId: personaId,
+                step: 'occasion'
+            });
+            window.location.href = '../discovery/occasion.html';
+        }
+    </script>
+    <script src="../../js/dev-nav.js"></script>
+</body>
+</html>

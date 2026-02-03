@@ -1,0 +1,382 @@
+/* ==================== DASHBOARD ==================== */
+.dashboard-page {
+    background: linear-gradient(180deg, #e3f2fd 0%, #f5f5f5 100%);
+    min-height: 100vh;
+}
+
+.dashboard-header {
+    margin-bottom: var(--space-xl);
+}
+
+.dashboard-greeting {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin-bottom: var(--space-sm);
+}
+
+.dashboard-subtext {
+    font-size: 16px;
+    color: var(--color-text-medium);
+}
+
+/* Quick Actions */
+.quick-actions {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+    flex-wrap: wrap;
+}
+
+.quick-action-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-lg);
+    background: white;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--color-text-dark);
+    font-family: var(--font-button);
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-normal);
+}
+
+.quick-action-btn:hover {
+    transform: translateY(-3px);
+}
+
+.quick-action-btn.primary {
+    background: var(--gradient-red-primary);
+    color: white;
+    box-shadow: var(--shadow-3d-red-light), 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.quick-action-btn.primary:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #a73a3a;
+}
+
+.quick-action-icon {
+    font-size: 24px;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+}
+
+/* Stats Row */
+.stats-row {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.stat-card {
+    flex: 1;
+    background: white;
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-md);
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--color-red-primary);
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: var(--color-text-medium);
+}
+
+/* Upcoming Events */
+.event-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.event-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    background: var(--color-bg-light);
+    border-radius: var(--radius-sm);
+    transition: var(--transition-normal);
+}
+
+.event-item:hover {
+    background: #d1e9fc;
+}
+
+.event-icon {
+    font-size: 28px;
+}
+
+.event-info {
+    flex: 1;
+}
+
+.event-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--color-text-dark);
+}
+
+.event-countdown {
+    font-size: 12px;
+    color: var(--color-orange);
+    font-weight: 500;
+}
+
+.event-action {
+    padding: 6px 12px;
+    background: var(--gradient-orange);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-button);
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #e65100;
+    transition: var(--transition-fast);
+}
+
+.event-action:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #e65100;
+}
+
+/* Recent Activity */
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    border-bottom: 1px solid #eee;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.activity-text {
+    flex: 1;
+    font-size: 14px;
+    color: var(--color-text-dark);
+}
+
+.activity-text strong {
+    color: var(--color-red-primary);
+}
+
+.activity-time {
+    font-size: 12px;
+    color: var(--color-text-light);
+}
+
+/* Persona Training */
+.training-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.training-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.training-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: var(--gradient-red-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.training-info {
+    flex: 1;
+}
+
+.training-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--color-text-dark);
+    margin-bottom: 6px;
+}
+
+.training-progress {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.training-progress .progress-bar {
+    flex: 1;
+    height: 8px;
+}
+
+.training-percent {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-medium);
+    min-width: 35px;
+}
+
+.training-action {
+    padding: 6px 12px;
+    background: var(--gradient-red-secondary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-button);
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #6b1a1a;
+    transition: var(--transition-fast);
+}
+
+.training-action:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #6b1a1a;
+}
+
+/* Empty States */
+.widget-empty {
+    text-align: center;
+    padding: var(--space-xl);
+    color: var(--color-text-light);
+}
+
+.widget-empty-icon {
+    font-size: 40px;
+    margin-bottom: var(--space-sm);
+    opacity: 0.5;
+}
+
+.widget-empty-text {
+    font-size: 14px;
+    margin-bottom: var(--space-md);
+}
+
+.widget-empty-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--color-bg-light);
+    color: var(--color-blue-primary);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: var(--transition-normal);
+}
+
+.widget-empty-btn:hover {
+    background: var(--color-blue-primary);
+    color: white;
+}
+
+/* Saved Sessions Compact */
+.sessions-compact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.session-mini {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    background: var(--color-bg-light);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.session-mini:hover {
+    background: #d1e9fc;
+}
+
+.session-mini-count {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-red-primary);
+}
+
+.session-mini-info {
+    flex: 1;
+}
+
+.session-mini-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--color-text-dark);
+}
+
+.session-mini-date {
+    font-size: 12px;
+    color: var(--color-text-light);
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-greeting {
+        font-size: 24px;
+    }
+
+    .quick-actions {
+        flex-direction: column;
+    }
+
+    .stats-row {
+        flex-direction: column;
+    }
+
+    .training-item {
+        flex-wrap: wrap;
+    }
+
+    .training-action {
+        width: 100%;
+        margin-top: var(--space-sm);
+    }
+}

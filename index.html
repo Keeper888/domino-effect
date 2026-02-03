@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Giver - Find the Perfect Valentine's Day Gift</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Heart Garland -->
+    <div class="heart-garland">
+        <div class="garland-string"></div>
+        <div class="hearts-container">
+            <span class="heart">&#10084;</span>
+            <span class="heart small">&#10084;</span>
+            <span class="heart">&#10084;</span>
+            <span class="heart small">&#10084;</span>
+            <span class="heart">&#10084;</span>
+            <span class="heart small">&#10084;</span>
+            <span class="heart">&#10084;</span>
+            <span class="heart small">&#10084;</span>
+            <span class="heart">&#10084;</span>
+            <span class="heart small">&#10084;</span>
+            <span class="heart">&#10084;</span>
+            <span class="heart small">&#10084;</span>
+            <span class="heart">&#10084;</span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <img src="assets/logo.png" alt="Gift Giver" class="logo-icon">
+            <span class="logo-text">Gift Giver</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="pages/browse/index.html" class="nav-btn white">Browse Gifts</a></li>
+            <li><a href="pages/ideas.html" class="nav-btn white">Gift Ideas</a></li>
+            <li><a href="#how-it-works" class="nav-btn white">How It Works</a></li>
+        </ul>
+        <div class="nav-auth">
+            <a href="pages/auth/signup.html" class="nav-btn red">Sign Up</a>
+            <a href="pages/auth/login.html" class="nav-btn red">Log In</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background">
+            <img src="assets/hero_background.png" alt="Valentine's Day Gift Exchange">
+        </div>
+
+        <div class="hero-content">
+            <h1 class="hero-title">Find the perfect<br>Valentine's Day gift!</h1>
+
+            <div class="hero-buttons">
+                <a href="pages/auth/signup.html" class="cta-btn primary">Get Started</a>
+                <a href="pages/quiz.html" class="cta-btn secondary">Take the Quiz</a>
+            </div>
+
+            <div class="hero-tagline">
+                <span class="tagline-static">FREE curated gift lists from</span>
+                <div class="platform-logos">
+                    <img src="assets/logos/Amazon_logo.svg.png" alt="Amazon" class="platform-logo" title="Amazon">
+                    <img src="assets/logos/EBay_logo.svg.png" alt="eBay" class="platform-logo" title="eBay">
+                    <img src="assets/logos/Aliexpress_logo.svg.png" alt="AliExpress" class="platform-logo" title="AliExpress">
+                    <img src="assets/logos/Temu_logo_icon.svg.png" alt="Temu" class="platform-logo" title="Temu">
+                    <img src="assets/logos/png-transparent-shein-logo.png" alt="Shein" class="platform-logo" title="Shein">
+                    <img src="assets/logos/Asos.svg.png" alt="ASOS" class="platform-logo" title="ASOS">
+                </div>
+                <span class="tagline-more">& 50+ more stores</span>
+            </div>
+        </div>
+
+        <!-- Decorative balloons -->
+        <img src="assets/hero_baloons_valentine.png" alt="" class="balloon balloon-left">
+        <img src="assets/hero_baloons_valentine.png" alt="" class="balloon balloon-right">
+
+        <!-- Wave Divider -->
+        <div class="wave-divider">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="waveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:rgba(255,255,255,0);"/>
+                        <stop offset="50%" style="stop-color:rgba(255,255,255,0.8);"/>
+                        <stop offset="100%" style="stop-color:rgba(227,242,253,1);"/>
+                    </linearGradient>
+                </defs>
+                <path d="M0,40 C360,100 1080,0 1440,40 L1440,120 L0,120 Z" fill="url(#waveGradient)"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-container">
+            <div class="feature-card">
+                <img src="assets/gift.png" alt="Browse Gifts" class="feature-icon">
+                <div class="feature-text">
+                    <h3>Browse Gifts</h3>
+                    <p>Explore Popular Gifts</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <img src="assets/bulb.png" alt="Gift Ideas" class="feature-icon">
+                <div class="feature-text">
+                    <h3>Get Gift Ideas</h3>
+                    <p>Find Inspiration</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <img src="assets/quiz.png" alt="Quiz" class="feature-icon">
+                <div class="feature-text">
+                    <h3>Personalized Quiz</h3>
+                    <p>Get the Best Suggestions</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <h2 class="section-title">Top Gift Categories</h2>
+        <div class="categories-container">
+            <a href="pages/browse/category.html?cat=her" class="category-btn">
+                <img src="assets/her.png" alt="For Her">
+            </a>
+            <a href="pages/browse/category.html?cat=him" class="category-btn">
+                <img src="assets/him.png" alt="For Him">
+            </a>
+            <a href="pages/browse/category.html?cat=kids" class="category-btn">
+                <img src="assets/kids.png" alt="For Kids">
+            </a>
+            <a href="pages/browse/category.html?cat=home" class="category-btn">
+                <img src="assets/home.png" alt="For Home">
+            </a>
+        </div>
+    </section>
+
+    <!-- Trending Gifts Section -->
+    <section class="trending">
+        <div class="trending-header">
+            <h2 class="section-title">Trending Gifts</h2>
+            <div class="trending-controls">
+                <div class="category-dropdown">
+                    <button class="category-dropdown-btn" id="categoryDropdownBtn">
+                        <span id="selectedCategory">All Gifts</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="category-dropdown-menu" id="categoryDropdownMenu">
+                        <button class="category-option active" data-category="all">All Gifts</button>
+                        <button class="category-option" data-category="her">💄 For Her</button>
+                        <button class="category-option" data-category="him">👔 For Him</button>
+                        <button class="category-option" data-category="nerds">🎮 For Nerds</button>
+                        <button class="category-option" data-category="girly">💅 For Girly Girl</button>
+                        <button class="category-option" data-category="gymbro">💪 For Gym Bro</button>
+                    </div>
+                </div>
+                <button class="view-all-btn" id="viewAllBtn">View All</button>
+            </div>
+        </div>
+        <div class="trending-container" id="trendingGrid">
+            <!-- For Her -->
+            <div class="product-card" data-category="her girly">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/280x200/ffebee/c62828?text=Spa+Gift+Set" alt="Spa Gift Set">
+                </div>
+                <h4>Spa Gift Set</h4>
+                <a href="#" class="shop-btn">Shop Now</a>
+            </div>
+            <div class="product-card" data-category="her girly">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/280x200/fce4ec/c62828?text=Perfume+Set" alt="Perfume Set">
+                </div>
+                <h4>Perfume Set</h4>
+                <a href="#" class="shop-btn">Shop Now</a>
+            </div>
+            <div class="product-card" data-category="her girly">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/280x200/f8bbd0/c62828?text=Jewelry+Box" alt="Jewelry Box">
+                </div>
+                <h4>Jewelry Box</h4>
+                <a href="#" class="shop-btn">Shop Now</a>
+            </div>
+            <!-- For Him -->
+            <div class="product-card" data-category="him">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/280x200/e3f2fd/1565c0?text=Watch+Collection" alt="Watch Collection">
+                </div>
+                <h4>Watch Collection</h4>
+                <a href="#" class="shop-btn">Shop Now</a>
+            </div>
+            <div class="product-card" data-category="him">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/280x200/bbdefb/1565c0?text=Leather+Wallet" alt="Leather Wallet">
+                </div>
+                <h4>Leather Wallet</h4>
+                <a href="#" class="shop-btn">Shop Now</a>
+            </div>
+            <div class="product-card" data-category="him">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/280x200/90caf9/1565c0?text=Grooming+Kit" alt="Grooming Kit">
+                </div>
+                <h4>Grooming Kit</h4>
+                <a href="#" class="shop-btn">Shop Now</a>
+            </div>
+            <!-- For Nerds -->
+            <div class="product-card" data-category="nerds him">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/280x200/ede7f6/7b1fa2?text=Gaming+Headset" alt="Gaming Headset">
+                </div>
+                <h4>Gaming Headset</h4>
+                <a href="#" class="shop-btn">Shop Now</a>
+            </div>
+            <div class="product-card" data-category="nerds">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/280x200/d1c4e9/7b1fa2?text=Mechanical+Keyboard" alt="Mechanical Keyboard">
+                </div>
+                <h4>Mechanical Keyboard</h4>
+                <a href="#" class="shop-btn">Shop Now</a>
+            </div>
+            <div class="product-card" data-category="nerds">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/280x200/b39ddb/7b1fa2?text=LED+Desk+Setup" alt="LED Desk Setup">
+                </div>
+                <h4>LED Desk Setup</h4>
+                <a href="#" class="shop-btn">Shop Now</a>
+            </div>
+            <!-- For Girly Girl -->
+            <div class="product-card" data-category="girly her">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/280x200/fce4ec/e91e63?text=Makeup+Palette" alt="Makeup Palette">
+                </div>
+                <h4>Makeup Palette</h4>
+                <a href="#" class="shop-btn">Shop Now</a>
+            </div>
+            <div class="product-card" data-category="girly her">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/280x200/f8bbd0/e91e63?text=Silk+Scrunchies" alt="Silk Scrunchies">
+                </div>
+                <h4>Silk Scrunchies</h4>
+                <a href="#" class="shop-btn">Shop Now</a>
+            </div>
+            <div class="product-card" data-category="girly">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/280x200/f48fb1/e91e63?text=Vanity+Mirror" alt="Vanity Mirror">
+                </div>
+                <h4>Vanity Mirror</h4>
+                <a href="#" class="shop-btn">Shop Now</a>
+            </div>
+            <!-- For Gym Bro -->
+            <div class="product-card" data-category="gymbro him">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/280x200/e8f5e9/388e3c?text=Protein+Shaker" alt="Protein Shaker">
+                </div>
+                <h4>Protein Shaker</h4>
+                <a href="#" class="shop-btn">Shop Now</a>
+            </div>
+            <div class="product-card" data-category="gymbro">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/280x200/c8e6c9/388e3c?text=Resistance+Bands" alt="Resistance Bands">
+                </div>
+                <h4>Resistance Bands</h4>
+                <a href="#" class="shop-btn">Shop Now</a>
+            </div>
+            <div class="product-card" data-category="gymbro">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/280x200/a5d6a7/388e3c?text=Gym+Bag" alt="Gym Bag">
+                </div>
+                <h4>Gym Bag</h4>
+                <a href="#" class="shop-btn">Shop Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps-container">
+            <div class="step anim-wiggle">
+                <div class="step-image">
+                    <img src="assets/9.png" alt="Step 1: Answer a Few Questions">
+                </div>
+                <p class="visually-hidden">Answer a Few Questions</p>
+            </div>
+            <div class="step anim-wiggle">
+                <div class="step-image">
+                    <img src="assets/10.png" alt="Step 2: Get Gift Recommendations">
+                </div>
+                <p class="visually-hidden">Get Gift Recommendations</p>
+            </div>
+            <div class="step anim-wiggle">
+                <div class="step-image">
+                    <img src="assets/11.png" alt="Step 3: Surprise Your Loved Ones">
+                </div>
+                <p class="visually-hidden">Surprise Your Loved Ones</p>
+            </div>
+        </div>
+        <a href="pages/auth/signup.html" class="cta-btn start-now">Start Now</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Gift Giver. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="js/dev-nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Budget - Gift Giver</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/discovery.css">
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="discovery-page" data-requires-auth="true">
+    <div class="discovery-container">
+        <!-- Back Link -->
+        <a href="occasion.html" class="discovery-back">
+            <span>←</span> Back to Occasion
+        </a>
+
+        <!-- Persona Context -->
+        <div class="persona-context" id="personaContext">
+            <!-- Will be populated by JS -->
+        </div>
+
+        <!-- Header -->
+        <div class="discovery-header">
+            <div class="discovery-icon">💰</div>
+            <h1 class="discovery-title">What's your budget?</h1>
+            <p class="discovery-subtitle">We'll show gifts in your price range</p>
+        </div>
+
+        <!-- Budget Pills -->
+        <div class="budget-container">
+            <div class="budget-pills" id="budgetPills">
+                <button class="budget-pill" data-value="under25">Under $25</button>
+                <button class="budget-pill" data-value="25-50">$25 - $50</button>
+                <button class="budget-pill" data-value="50-100">$50 - $100</button>
+                <button class="budget-pill" data-value="100-200">$100 - $200</button>
+                <button class="budget-pill" data-value="200plus">$200+</button>
+            </div>
+            <p class="budget-tip">💡 You can always filter results later</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="discovery-nav">
+            <button class="discovery-nav-prev" onclick="window.location.href='occasion.html'">
+                <span>←</span> Back
+            </button>
+            <button class="btn btn-start" id="startBtn" disabled>
+                🎁 Start Discovering!
+            </button>
+        </div>
+    </div>
+
+    <script src="../../js/storage.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/discovery.js"></script>
+    <script src="../../js/dev-nav.js"></script>
+</body>
+</html>

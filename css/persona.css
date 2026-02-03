@@ -1,0 +1,533 @@
+/* ==================== PERSONA PAGES ==================== */
+.persona-page {
+    background: linear-gradient(180deg, #e3f2fd 0%, #f5f5f5 100%);
+    min-height: 100vh;
+}
+
+/* Header */
+.persona-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xl);
+}
+
+.persona-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+
+/* Persona List Grid */
+.persona-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--space-lg);
+}
+
+/* Persona Card (List View) */
+.persona-list-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    gap: var(--space-lg);
+    transition: var(--transition-normal);
+    cursor: pointer;
+}
+
+.persona-list-card:hover {
+    transform: translateY(-5px);
+}
+
+.persona-list-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--gradient-red-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    flex-shrink: 0;
+}
+
+.persona-list-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.persona-list-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin-bottom: 4px;
+}
+
+.persona-list-relationship {
+    font-size: 14px;
+    color: var(--color-text-medium);
+    margin-bottom: var(--space-sm);
+}
+
+.persona-list-birthday {
+    margin-left: var(--space-sm);
+    color: var(--color-orange);
+    font-size: 12px;
+}
+
+.persona-list-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: var(--space-sm);
+}
+
+.persona-list-tag {
+    background: var(--color-bg-light);
+    color: var(--color-blue-primary);
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.persona-list-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    font-size: 12px;
+    color: var(--color-text-light);
+}
+
+.persona-list-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.persona-list-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    align-self: center;
+}
+
+.persona-action-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-normal);
+}
+
+.persona-action-btn.primary {
+    background: var(--gradient-orange);
+    color: white;
+    box-shadow: 0 3px 0 #e65100;
+}
+
+.persona-action-btn.primary:hover {
+    transform: translateY(-2px);
+}
+
+.persona-action-btn.primary:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #e65100;
+}
+
+.persona-action-btn.secondary {
+    background: #eee;
+    color: var(--color-text-medium);
+}
+
+.persona-action-btn.secondary:hover {
+    background: #ddd;
+}
+
+/* Add Persona Card */
+.add-persona-card {
+    background: white;
+    border: 3px dashed #ddd;
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    min-height: 180px;
+}
+
+.add-persona-card:hover {
+    border-color: var(--color-red-light);
+    background: #fff5f5;
+}
+
+.add-persona-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--color-bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin-bottom: var(--space-md);
+}
+
+.add-persona-text {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--color-text-medium);
+}
+
+/* ==================== PERSONA VIEW PAGE ==================== */
+.persona-view-back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    color: var(--color-text-medium);
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: var(--space-lg);
+    transition: var(--transition-normal);
+}
+
+.persona-view-back:hover {
+    color: var(--color-blue-primary);
+}
+
+.persona-profile {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    margin-bottom: var(--space-xl);
+}
+
+.persona-profile-header {
+    background: var(--gradient-blue);
+    padding: var(--space-2xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+    color: white;
+}
+
+.persona-profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    flex-shrink: 0;
+}
+
+.persona-profile-name {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.persona-profile-relationship {
+    font-size: 18px;
+    opacity: 0.9;
+    margin-bottom: 4px;
+}
+
+.persona-profile-birthday {
+    font-size: 15px;
+    opacity: 0.85;
+    margin-bottom: var(--space-md);
+}
+
+.persona-profile-actions {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.persona-profile-body {
+    padding: var(--space-xl);
+}
+
+.persona-section {
+    margin-bottom: var(--space-xl);
+}
+
+.persona-section:last-child {
+    margin-bottom: 0;
+}
+
+.persona-section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--space-md);
+}
+
+.persona-interests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.persona-interest-tag {
+    background: var(--color-bg-light);
+    color: var(--color-blue-primary);
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.persona-detail-row {
+    display: flex;
+    gap: var(--space-xl);
+}
+
+.persona-detail-item {
+    flex: 1;
+}
+
+.persona-detail-label {
+    font-size: 12px;
+    color: var(--color-text-light);
+    margin-bottom: 4px;
+}
+
+.persona-detail-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+}
+
+/* Training Progress */
+.persona-training {
+    background: linear-gradient(180deg, #fff5f5 0%, #fff 100%);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+}
+
+.persona-training-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+}
+
+.persona-training-level {
+    font-weight: 600;
+    color: var(--color-text-dark);
+}
+
+.persona-training-percent {
+    font-weight: 700;
+    color: var(--color-red-primary);
+}
+
+.persona-training-tip {
+    font-size: 13px;
+    color: var(--color-text-medium);
+    margin-top: var(--space-md);
+}
+
+/* Session History */
+.persona-sessions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.persona-session-card {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-sm);
+    padding: var(--space-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.persona-session-card:hover {
+    background: #d1e9fc;
+}
+
+.persona-session-count {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-red-primary);
+    min-width: 40px;
+}
+
+.persona-session-info {
+    flex: 1;
+}
+
+.persona-session-occasion {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--color-text-dark);
+}
+
+.persona-session-date {
+    font-size: 12px;
+    color: var(--color-text-light);
+}
+
+/* Delete Confirmation Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition-normal);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    transform: scale(0.9);
+    transition: var(--transition-normal);
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+.modal-icon {
+    font-size: 48px;
+    margin-bottom: var(--space-md);
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin-bottom: var(--space-sm);
+}
+
+.modal-text {
+    color: var(--color-text-medium);
+    margin-bottom: var(--space-xl);
+}
+
+.modal-actions {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+}
+
+.modal-btn {
+    padding: 10px 24px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-button);
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.modal-btn.cancel {
+    background: #eee;
+    border: none;
+    color: var(--color-text-dark);
+}
+
+.modal-btn.cancel:hover {
+    background: #ddd;
+}
+
+.modal-btn.danger {
+    background: var(--gradient-red-secondary);
+    border: none;
+    color: white;
+    box-shadow: 0 3px 0 #6b1a1a;
+}
+
+.modal-btn.danger:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #6b1a1a;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+    .persona-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-md);
+    }
+
+    .persona-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .persona-list-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .persona-list-avatar {
+        margin: 0 auto;
+    }
+
+    .persona-list-tags {
+        justify-content: center;
+    }
+
+    .persona-list-meta {
+        justify-content: center;
+    }
+
+    .persona-list-actions {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .persona-profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .persona-profile-name {
+        font-size: 28px;
+    }
+
+    .persona-profile-actions {
+        justify-content: center;
+    }
+
+    .persona-detail-row {
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+}
