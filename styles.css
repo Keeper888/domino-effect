@@ -932,10 +932,88 @@ body {
 }
 
 /* ==================== RESPONSIVE ==================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 15px 20px;
+    }
+
+    .logo-icon {
+        height: 70px;
+    }
+
+    .logo-text {
+        font-size: 22px;
+    }
+
+    .nav-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .hero-title {
+        font-size: 42px;
+    }
+
+    .features-container {
+        gap: 25px;
+    }
+
+    .feature-card {
+        min-width: 280px;
+        padding: 50px 60px 65px;
+    }
+
+    .categories-container {
+        gap: 15px;
+    }
+
+    .category-btn img {
+        max-width: 140px;
+    }
+}
+
+/* Small Tablet / Large Phone */
 @media (max-width: 900px) {
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .logo {
+        order: 1;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .nav-auth {
+        order: 2;
+    }
+
     .features-container {
         flex-direction: column;
         align-items: center;
+    }
+
+    .feature-card {
+        width: 90%;
+        max-width: 350px;
+    }
+
+    .categories-container {
+        flex-wrap: wrap;
+    }
+
+    .category-btn img {
+        max-width: 120px;
     }
 
     .trending-header {
@@ -949,17 +1027,171 @@ body {
     }
 
     .trending-container {
-        grid-template-columns: repeat(2, 280px);
+        grid-template-columns: repeat(2, 1fr);
+        padding: 0 20px;
+    }
+
+    .product-card {
+        width: 100%;
     }
 
     .steps-container {
         flex-direction: column;
         align-items: center;
     }
+
+    .step {
+        max-width: 300px;
+    }
 }
 
+/* Mobile */
 @media (max-width: 650px) {
+    .heart-garland {
+        display: none;
+    }
+
+    .navbar {
+        top: 0;
+        padding: 10px 15px;
+        gap: 10px;
+    }
+
+    .logo-icon {
+        height: 50px;
+    }
+
+    .logo-text {
+        font-size: 18px;
+    }
+
+    .nav-links {
+        gap: 5px;
+    }
+
+    .nav-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+
+    .nav-auth .nav-btn {
+        padding: 8px 12px;
+    }
+
+    .hero {
+        padding-top: 140px;
+    }
+
+    .hero-title {
+        font-size: 28px;
+        padding: 0 15px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .cta-btn {
+        font-size: 18px;
+        padding: 10px 24px;
+    }
+
+    .hero-tagline {
+        margin-top: 20px;
+        padding: 0 15px;
+    }
+
+    .balloon {
+        display: none;
+    }
+
+    .features {
+        padding: 40px 15px;
+    }
+
+    .feature-card {
+        min-width: unset;
+        width: 100%;
+        max-width: 300px;
+        padding: 45px 50px 60px;
+    }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        margin-top: -60px;
+    }
+
+    .categories {
+        padding: 40px 15px;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .categories-container {
+        gap: 10px;
+    }
+
+    .category-btn img {
+        max-width: 80px;
+    }
+
+    .trending {
+        padding: 40px 15px;
+    }
+
     .trending-container {
-        grid-template-columns: 280px;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0;
+    }
+
+    .product-card {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .how-it-works {
+        padding: 40px 15px;
+    }
+
+    .step-image img {
+        max-width: 250px;
+    }
+
+    .cta-btn.start-now {
+        font-size: 18px;
+    }
+}
+
+/* Extra small phones */
+@media (max-width: 380px) {
+    .logo-text {
+        font-size: 16px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+    }
+
+    .hero-title {
+        font-size: 24px;
+    }
+
+    .cta-btn {
+        font-size: 16px;
+        padding: 8px 20px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .category-btn img {
+        max-width: 70px;
     }
 }
