@@ -1,0 +1,10 @@
+.git
+.gitignore
+backend
+supabase
+*.py
+*.exe
+*.zip
+README.md
+Dockerfile
+.dockerignore
